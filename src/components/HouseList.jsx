@@ -1,12 +1,14 @@
-import { use, useState } from "react";
+import loadingStatus from "../helpers/loadingStatus";
+import useHouses from "../hooks/useHouses";
 import HouseRow from "./HouseRow";
+import LoadingIndicator from "./LoadingIndicator";
+import ErrorBoundary from "./ErrorBoundary";
 
-const fetchHouses = fetch("https://localhost:4000/house")
-.then(response => response.json());
+const HouseList = ({selectHouse}) => {
+ const {houses, setHouses, loadingState} = useHouses();
 
-const HouseList = () => {
-    const houseResult = use(fetchHouses);
-    const [houses, setHouses] = useState(houseResult);
+ if (loadingState !== loadingStatus.loaded) 
+    return <LoadingIndicator loadingState={loadingState} />
 
   const addHouse = () => {
     setHouses([
@@ -36,7 +38,9 @@ const HouseList = () => {
           </tr>
         </thead>
         <tbody>
+          <ErrorBoundary fallback="Error loading house rows!">
           {houses.map(h => <HouseRow key={h.id} house={h} />)}
+          </ErrorBoundary>
         </tbody>
       </table>
       <button onClick={addHouse} className="btn btn-primary">
