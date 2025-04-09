@@ -1,26 +1,20 @@
-
-import Banner from './components/Banner';
-import HouseList from './components/HouseList';
-import "./app.css"
-import { useState } from 'react';
-import House from './components/House';
-import ErrorBoundary from './components/ErrorBoundary';
+import Banner from "./components/Banner"
+import "./App.css"
+import House from "./components/House"
+import HouseList from "./components/HouseList";
+import { BrowserRouter, Route, Routes } from "react-router"
 
 function App() {
-  const [selectedHouse, setSelectedHouse] = useState();
-
-  const setSelectedHouseWrapper = (house) => {
-    setSelectedHouse(house);
-  };
-
   return (
-    <ErrorBoundary fallback="Something went wrong!">
+    <BrowserRouter>
       <Banner>
         <div>Providing houses all over the world</div>
       </Banner>
-      {selectedHouse ? <House house={selectedHouse} />
-        : <HouseList selectHouse={setSelectedHouseWrapper} />}
-    </ErrorBoundary>
+      <Routes>
+        <Route index element={<HouseList />} />
+        <Route path="house" element={<House />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
