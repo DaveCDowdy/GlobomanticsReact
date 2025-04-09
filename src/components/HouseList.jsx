@@ -39,7 +39,7 @@ const HouseList = ({selectHouse}) => {
         </thead>
         <tbody>
           <ErrorBoundary fallback="Error loading house rows!">
-          {houses.map(h => <HouseRow key={h.id} house={h} />)}
+          {houses.map(h => <HouseRow key={h.id} house={h} selectHouse={selectHouse} />)}
           </ErrorBoundary>
         </tbody>
       </table>
